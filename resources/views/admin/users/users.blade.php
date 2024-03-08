@@ -1,3 +1,4 @@
+
 @extends('admin.layout.layout')
 @section('content')
   <!-- Content Wrapper. Contains page content -->
@@ -29,81 +30,91 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Users</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="users" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th>USER</th>
-                    <th>USERNAME</th>
-                    <th>ROLE</th>
-                    <th>STATUS</th>
-                    <th>ACTION</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  
-                      @foreach ($users as $user)
+   <?php  $collection = permissionHelper();?>
+    @foreach ($collection as $item)
+        @if($item['permission_id']===1)
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+    
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Users</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <table id="users" class="table table-bordered table-striped">
+                      <thead>
                       <tr>
-                        <td>{{$user['name']}}</td>
-                        <td>{{$user['username']}}</td>
-                        <td>{{$user['role']['name']}}</td>
-                        <td>
-                            @if($user['status']==1)
-                            <button type="button" class="btn btn-primary btn-sm">Active</button>
-                            @else
-                            <button type="button" class="btn btn-warming btn-sm">Inctive</button>
-                            @endif
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default">Action</button>
-                                <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu" role="menu">
-                                    <a class="dropdown-item" href="#">View </a>
-                                    <a class="dropdown-item" href="{{url('admin/add-edit-user/'.$user->id)}}">Edit</a>
-                                    <a class="dropdown-item confirmDelete" name="users" title="Delete User" href="javascript:void(0)" record="users" recordid="{{$user->id}}">Delete</a>
-                                </div>
-                            </div>
-                        </td>
+                        <th>USER</th>
+                        <th>USERNAME</th>
+                        <th>ROLE</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
                       </tr>
+                      </thead>
+                      <tbody>
                       
-                      @endforeach
-                     
-                  
-                  </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
-                  </tr>
-                  </tfoot>
-                </table>
+                          @foreach ($users as $user)
+                          <tr>
+                            <td>{{$user['name']}}</td>
+                            <td>{{$user['username']}}</td>
+                              <td>{{$user['role']['name']}}</td>
+                            <td>
+                                @if($user['status']==1)
+                                <button type="button" class="btn btn-primary btn-sm">Active</button>
+                                @else
+                                <button type="button" class="btn btn-warming btn-sm">Inctive</button>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default">Action</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a class="dropdown-item" href="#">View </a>
+                                        @if($item['permission_id']===1 || $item['permission_id']===3)
+                                        <a class="dropdown-item" href="{{url('admin/add-edit-user/'.$user->id)}}">Edit</a>
+                                        @endif
+                                        @if($item['permission_id']===1 || $item['permission_id']===4)
+                                        <a class="dropdown-item confirmDelete" name="users" title="Delete User" href="javascript:void(0)" record="users" recordid="{{$user->id}}">Delete</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                          </tr>
+                          
+                          @endforeach
+                         
+                      
+                      </tbody>
+                      <tfoot>
+                      <tr>
+                        <th>Rendering engine</th>
+                        <th>Browser</th>
+                        <th>Platform(s)</th>
+                        <th>Engine version</th>
+                        <th>CSS grade</th>
+                      </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
               </div>
-              <!-- /.card-body -->
+              <!-- /.col -->
             </div>
-            <!-- /.card -->
+            <!-- /.row -->
           </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </section>
+          <!-- /.container-fluid -->
+        </section>
+        @endif
+    @endforeach
+    
     <!-- /.content -->
   </div>
  @endsection

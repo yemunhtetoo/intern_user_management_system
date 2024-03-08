@@ -55,15 +55,16 @@ class AdminController extends Controller
     }
 
     public function users(){
-        
+
         Session::put('page','users');
         $users = Admin::where('status',1)->get();      
         $roles = Admin::with('role')->get()->toArray();
+        
         return view('admin.users.users')->with(compact('users','roles'));
     }
 
     public function addEditUsers(Request $request, $id = null){
-        
+        // Gate::authorize('create-user');
         Session::put('page','create-users');
         $getRoles = Role::get()->toArray();
         // dd($getRoles);
